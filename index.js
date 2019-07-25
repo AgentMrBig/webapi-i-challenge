@@ -24,8 +24,26 @@ server.get('/api/users', (req, res) => {
         })
         .catch(() => {
             res.status(500).json({
-                errorMessage: 'The users information could not be retrieved.',
+                errorMessage: 'Could not get User Info!!!',
             });
+        });
+});
+
+server.get('/api/users/:id', (req, res) => {
+    Users.findById(req.params.id)
+        .then(user => {
+            if (user) {
+                res.status(200).json(user);
+            } else {
+                res
+                    .status(404)
+                    .json({ message: 'Found no user with that ID!' });
+            }
+        })
+        .catch(() => {
+            res
+                .status(500)
+                .json({ errorMessage: 'Could not get user info!' });
         });
 });
 
