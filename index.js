@@ -47,6 +47,20 @@ server.get('/api/users/:id', (req, res) => {
         });
 });
 
+server.post('/api/users', (req, res) => {
+
+    Users.insert(req.body)
+        .then(user => {
+            res.status(201).json(user);
+        })
+        .catch(() => {
+            res.status(500).json({
+                errorMessage:
+                    'User not saved to database, there was an error',
+            });
+        });
+});
+
 
 const port = 5000;
 server.listen(port, () => console.log(`\n*** API on port ${port} ***\n`));
