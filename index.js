@@ -97,6 +97,24 @@ server.put('/api/users/:id', (req, res) => {
     }
 });
 
+server.delete('/api/users/:id', (req, res) => {
+    Users.remove(req.params.id)
+        .then(count => {
+            if (count && count > 0) {
+                res.status(200).json({
+                    message: 'Cold, you deleted that person!.',
+                });
+            } else {
+                res
+                    .status(404)
+                    .json({ message: 'No user with specified ID exists.' });
+            }
+        })
+        .catch(() => {
+            res.status(500).json({ errorMessage: 'Could not remove user' });
+        });
+});
+
 
 const port = 5000;
 server.listen(port, () => console.log(`\n*** API on port ${port} ***\n`));
